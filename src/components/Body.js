@@ -1,6 +1,10 @@
 import RestaurantCard from "./RestaurantCard";
 import { IMG_CDN_URL,restaurants } from "../config.js";
-import React,{ useState } from "react";
+import React,{ useEffect, useState } from "react";
+import ShimmerCard from "./ShimmerCard.js";
+import { Link } from "react-router-dom";
+import { filterData } from "../../utils/helper.js";
+import useOnline from "../../utils/useOnline.js";
 
 //In react we cannot make simply search input box , hence we use hooks and usestate and state local variables.
 
@@ -10,50 +14,99 @@ import React,{ useState } from "react";
 */
   //a separate function to filter the data on the basis of search input..
 
-  function filterData(restaurantList,searchInput) {
-      const filteredData = restaurantList.filter((restaurant) => restaurant.info.name.includes(searchInput));
-      return filteredData;
-  }
+  
 
   const Body = () => {
+    
     // here searchInput is local state variable...
-    const [searchInput, setSearchInput] = useState(); // To create a state variable.
-    const [restaurantList,setrestaurantList] = useState(restaurants);
-    return (
-      <>
-      <div className="searchContainer">
-          <input 
-          type="text" 
-          placeholder="search box" 
-          className="search-input" 
-          value = {searchInput}
-          onChange={(e) => {
-            setSearchInput(e.target.value);
-          }}>
+    const [searchInput, setSearchInput] = useState(""); // To create a state variable.
+    const [allrestaurantList,setAllRestaurantList] = useState([]);
+    const [filteredrestaurantList,setFilteredRestaurantList] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-          </input>
+    // empty dependency array => once after render
+    // dep array[searchInput] => once after initial render + every time after render (searchInput changes)..
 
-          <button className="searchButton" 
-          onClick={() => {
-            //filter the data..
-           const restaurantListFilterData = filterData(restaurantList,searchInput);
-            //update ui with filtered data by assigning value in restaurantList state
-            setrestaurantList(restaurantListFilterData);
-          }}
-          >search</button>
-      </div>
-      <div className="body">
-        {/* <RestaurantCard {...restaurants[0].info}/>  -> passing using spread operator..*/
-        //doing using map...
+    useEffect( () => {
+      // This is the right place for an API call..
+      getRestaurants();
+    },[]); // => the square bracket is known as dependency array..
 
-          restaurantList.map( (restaurant) => {
-          return <RestaurantCard {...restaurant.info} key={restaurant.info.id}/>
-          })
-        }
-      </div>
-      </>
-    );
-  }
+    //very very important... good practice for an api call......
+
+    async function getRestaurants(){
+      // inside fetch("") we will provide link of swiggy's api..
+      const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=19.07480&lng=72.88560&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
+      const json = await data.json();
+      console.log(json);
+
+      //optional chaining..
+      setAllRestaurantList(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+      setFilteredRestaurantList(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+      setLoading(false);
+    }
+      
+
+    const isOnline = useOnline();
+    
+    if(!isOnline){
+      return <h1>👀Sorry you are offline!!</h1>
+    }
+      return (
+        <>
+        <div className="searchContainer">
+            <input 
+            type="text" 
+            placeholder="search box" 
+            className="search-input" 
+            value = {searchInput}
+            onChange={(e) => {
+              setSearchInput(e.target.value);
+            }}>
+  
+            </input>
+  
+            <button className="searchButton" 
+            onClick={() => {
+              //filter the data..
+             const restaurantListFilterData = filterData(allrestaurantList,searchInput);
+              //update ui with filtered data by assigning value in restaurantList state
+              setFilteredRestaurantList(restaurantListFilterData);
+              setLoading(false);
+            }}
+            >search</button>
+        </div>
+        <div className="body">
+          {
+          
+          //conditional rendering..
+    // if(restaurantList is Empty) display 
+    // else display actual ui..
+
+          loading ? (
+            Array(10)
+              .fill("")
+              .map((_, index) => <ShimmerCard key={index} />)
+          ) : (
+            filteredrestaurantList.length === 0? (
+              <div className="no-results">
+                <p>Oops, no restaurant matched</p>
+              </div>
+            ) 
+            /* <RestaurantCard {...restaurants[0].info}/>  -> passing using spread operator..*/
+          //doing using map...
+            :filteredrestaurantList.map((restaurant) => (
+             <Link to={"/restaurant/"+restaurant.info.id }  key={restaurant.info.id} style={{ textDecoration: 'none' }}> 
+                <RestaurantCard {...restaurant.info}  />
+             </Link> 
+            ))
+          )}
+        </div>
+        </>
+      );
+    }
+    
+   
 
   export default Body;
   

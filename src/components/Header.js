@@ -1,3 +1,5 @@
+import { useState } from "react";
+import {Link} from "react-router-dom";
 
 //named export..
 export const Title = () => {
@@ -8,16 +10,25 @@ export const Title = () => {
 }
 
 const Header = ()=> {
+
+    const [isLoggedIn,setIsLoggedIn] = useState(true);
     return (
       <div className="header">
        <Title />
         <ul>
-          <a href="/"><li>Home</li></a>
-          <a href="/"><li>About</li></a>
-          <a href="/"><li>Contact</li></a>
+          <Link to="/"><li>Home</li></Link>
+          <Link to="/about"><li>About</li></Link>
+          <Link to="/contact"><li>Contact</li></Link>
          <a href="/"> <li>Cart</li></a>
         </ul>
+        {
+          isLoggedIn?
+          <button onClick={() => setIsLoggedIn(false)
+          }>LogOut</button>:
+          <button onClick={ () => setIsLoggedIn(true)}>Login</button>
+        }
       </div> 
+      
    );
    };
 
