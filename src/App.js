@@ -1,4 +1,4 @@
-import React from "react";
+import React,{ lazy , Suspense} from "react";
 import ReactDOM from "react-dom/client";
 import Header,{Title} from "./components/Header.js"; //both default as well as named import..
 import Body from "./components/Body.js";
@@ -8,9 +8,21 @@ import AboutUs from "./components/AboutUs.js";
 import Error from "./components/Error.js";
 import ContactUs from "./components/ContactUs.js";
 import RestaurantMenu from "./components/RestaurantMenu.js";
+import Shimmer from "./components/ShimmerCard.js";
+//import Instamart from "./components/Instamart.js"; -> this is normal importing of instamart... further we will be lazy importing...
 
-//copied data from swiggy's official site..
+/* 
+    - Chunking
+    - Code Splitting
+    - Lazy Loading
+    - Dynamic Bundling
+    - On Demand Loading
+    - Dynamic Import
 
+ */
+
+  const Instamart = lazy( () => import("./components/Instamart.js"));
+  // On Demand Loading -> on render -> suspend loading.
 
 //React Functional Component..
 
@@ -26,6 +38,7 @@ const AppLayOut = () => {
       </>
     );
 }
+
 
 const appRouter = createBrowserRouter([
   {
@@ -51,6 +64,12 @@ const appRouter = createBrowserRouter([
       {
         path: "/restaurant/:id", //this refers to dynamic routing means.. any thing can take place instead of id
         element: <RestaurantMenu/>,
+      },
+      {
+        path: "/instamart",
+        element: <Suspense fallback={<Shimmer/>}> 
+                   <Instamart />
+                </Suspense>,
       },
     ]
   },

@@ -1,23 +1,25 @@
 import React from 'react';
-import "./MenuItemCard.css";
-import {IMG_CDN_URL} from "../config.js";
+import MenuList from "./MenuList.js"
 
-const MenuItemCard = (item) => {
-    //console.log(name,price,description);
+
+
+const MenuItemCard = ({data,showItems,setShowIndex}) => {
+
+    const handleClick = () => {
+        setShowIndex();
+    }
     return (
-        <div className="menu-item-card">
-            <img 
-                src={IMG_CDN_URL+item.imageId}
-                alt={item.name }
-                className="image"
-            />
-            <div className="info">
-                <h3 className="name">{item.name}</h3>
-                <p className="price">₹{item.price}</p>
-                <p className="description">{item.description}</p>
-            </div>
+        <div>
+            {/* accordion header */}
+            <div className=' w-6/12 mx-auto my-4 bg-grey-100 shadow-lg p-4 '>
+                <div className='flex justify-between cursor-pointer' onClick={handleClick}>
+                <span className='text-lg font-bold'>{data.title+"  "}({ data.itemCards.length})</span>
+                <span>🔽</span>
+                {/* accordion body */}
+                </div>
+                   { showItems && <MenuList items={data.itemCards}/>}
+                </div>
         </div>
     );
 }
-
 export default MenuItemCard;

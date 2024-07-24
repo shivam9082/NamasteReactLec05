@@ -1,3 +1,10 @@
+.shimmer-outer-div{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  
+}
 .shimmer-card {
     display: flex;
     flex-direction: column;

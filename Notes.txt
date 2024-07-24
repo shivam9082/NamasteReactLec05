@@ -1,0 +1,39 @@
+------ Lect-12 Jo Dikhta hai wo bikhta hai ------
+- Ways to style our app:
+    - Internal and External CSS
+    - SCSS
+    - Component Libraries : material ui,ant ui , chakra, base ui
+    - Styled Component.
+    - Tailwind CSS Framework.
+      - Pros :
+            - CSS on the go(in the same file).
+            - reusability
+            - less bundle size
+            - Flexible UI (customizable)
+    
+-- Tailwind css is like a kind of bully and it says that every css code you have to write like my way.
+-- w-[200px] -> this is the property for width in tailwind css and in the square bracket you can pass dynamic parameter...
+
+- Pros of Using tailwind Css :
+  - Easy to debug
+  - less code
+  - no duplicate css
+  - bundle size is small
+  - less time in development
+
+- Cons of Using tailwind Css :
+  - Initial learning curve
+  
+
+
+------ Lec-11 ---- Data is the new oil
+
+- Lifting the state up : This basically meanns that giving power of state to
+                         our parent.
+
+- Controlled and Uncontrolled Component :
+  - Controlled Component : If any Component is Controlled by its parent for eg. via state variables..then it a Controlled Component.
+  - Uncontrolled Component : If any Component is not Controlled by any of its parent Component or any other Component then it is Uncontrolled Component.
+
+- Read about Lifting the State up from react doc..
+

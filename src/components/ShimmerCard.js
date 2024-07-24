@@ -14,4 +14,13 @@ const ShimmerCard = () => {
   );
 };
 
-export default ShimmerCard;
+
+const Shimmer = () => {
+  return (
+    <div className='shimmer-outer-div'>
+    {(Array(10).fill("").map((_, index) => <ShimmerCard key={index} />))}
+    </div>
+  )
+}
+
+export default Shimmer;

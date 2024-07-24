@@ -1,10 +1,10 @@
-import { useEffect,useState } from "react";
 import { useParams } from "react-router-dom";
 import { IMG_CDN_URL } from "../config";
 import ShimmerCard from "./ShimmerCard";
 import MenuItemCard from "./MenuItemCard.js";
 import "./RestaurantMenu.css";
 import useRestaurant from "../../utils/useRestaurant.js";
+import { useState } from "react";
 
 const RestaurantMenu = () => {
 
@@ -12,18 +12,27 @@ const RestaurantMenu = () => {
     const {id} = useParams();
 
     
-    const [restaurant,menuList] = useRestaurant(id);
+    const [restaurant,category,nestedCategory] = useRestaurant(id);
+    const [showIndex,setShowIndex] = useState(null);
 
-    //console.log(id);
+    //console.log(category);
+
     return !restaurant ? <ShimmerCard.js/>:(
         <div>
-            <h1 className="heading">Restaurant Name: {restaurant.name}</h1>
-            <h2 className="subheading">Menu</h2>
-            <div>
-               {
-                  menuList?.map((item) => <MenuItemCard {...item} key={item.id}/>)
-               }
-            </div>
+            <h1 className="text-center p-3 text-xl font-bold">Restaurant Name: {restaurant.name}</h1>
+            <h2 className="text-center p-3 font-bold">Menu</h2>
+
+            {/* category accordion*/ }
+           { category.map((c,index) => <MenuItemCard 
+           key={c?.card?.card?.title} 
+           data={c?.card?.card} 
+           showItems={index===showIndex?true:false}  
+           setShowIndex = { () => setShowIndex(index) }
+           />
+           )}
+          
+            {/* nestedcategory accordion */}
+           
         </div>
     );
 }

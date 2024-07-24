@@ -1,7 +1,7 @@
 import RestaurantCard from "./RestaurantCard";
 import { IMG_CDN_URL,restaurants } from "../config.js";
 import React,{ useEffect, useState } from "react";
-import ShimmerCard from "./ShimmerCard.js";
+import Shimmer from "./ShimmerCard.js";
 import { Link } from "react-router-dom";
 import { filterData } from "../../utils/helper.js";
 import useOnline from "../../utils/useOnline.js";
@@ -38,23 +38,25 @@ import useOnline from "../../utils/useOnline.js";
       // inside fetch("") we will provide link of swiggy's api..
       const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=19.07480&lng=72.88560&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
       const json = await data.json();
-      console.log(json);
-
-      //optional chaining..
+      // setTimeout(() => {
+      //   console.log('This message is displayed after 3 seconds');
+      // }, 3000);
+            //optional chaining..
       setAllRestaurantList(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+
       setFilteredRestaurantList(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+      //console.log(filteredrestaurantList);
       setLoading(false);
     }
       
 
-    const isOnline = useOnline();
-    
+    const isOnline = useOnline();    
     if(!isOnline){
       return <h1>👀Sorry you are offline!!</h1>
     }
       return (
         <>
-        <div className="searchContainer">
+        <div className="p-5 bg-pink-100 my-5">
             <input 
             type="text" 
             placeholder="search box" 
@@ -66,7 +68,7 @@ import useOnline from "../../utils/useOnline.js";
   
             </input>
   
-            <button className="searchButton" 
+            <button className="p-2 m-2 bg-purple-900 hover:bg-purple-400 text-white rounded-md" 
             onClick={() => {
               //filter the data..
              const restaurantListFilterData = filterData(allrestaurantList,searchInput);
@@ -76,18 +78,13 @@ import useOnline from "../../utils/useOnline.js";
             }}
             >search</button>
         </div>
-        <div className="body">
+        <div className="flex flex-wrap justify-between">
           {
-          
           //conditional rendering..
     // if(restaurantList is Empty) display 
     // else display actual ui..
 
-          loading ? (
-            Array(10)
-              .fill("")
-              .map((_, index) => <ShimmerCard key={index} />)
-          ) : (
+          loading ? <Shimmer/> : (
             filteredrestaurantList.length === 0? (
               <div className="no-results">
                 <p>Oops, no restaurant matched</p>
@@ -96,9 +93,9 @@ import useOnline from "../../utils/useOnline.js";
             /* <RestaurantCard {...restaurants[0].info}/>  -> passing using spread operator..*/
           //doing using map...
             :filteredrestaurantList.map((restaurant) => (
-             <Link to={"/restaurant/"+restaurant.info.id }  key={restaurant.info.id} style={{ textDecoration: 'none' }}> 
-                <RestaurantCard {...restaurant.info}  />
-             </Link> 
+             <Link to={"/restaurant/"+restaurant.info.id }  key={restaurant.info.id}> 
+              <RestaurantCard {...restaurant.info} />
+              </Link> 
             ))
           )}
         </div>

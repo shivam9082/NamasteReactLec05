@@ -4,7 +4,9 @@ import {FETCH_MENU_URL} from "../src/config.js";
 const useRestaurant = (id) => {
 
     const [restaurant,setRestaurant] = useState({});
-    const [menuList,setMenuList] = useState([]);
+    const [category, setCategory] = useState([]);
+    const [nestedCategory, setNestedCategory] = useState([]);
+   
 
     //const {restaurant,menuList} = useRestaurant(id);
 
@@ -14,23 +16,32 @@ const useRestaurant = (id) => {
 
 
     async function getRestaurantInfo(){
-        const data = await fetch(FETCH_MENU_URL + id);
-        const json = await data.json();
+        const data = await fetch(FETCH_MENU_URL + id); 
+        const json = await data.json();  
+
         setRestaurant(json?.data?.cards[2]?.card?.card?.info);
 
-        /* {
-            console.log(json.data.cards[4].groupedCard.cardGroupMap.REGULAR.cards[2].card.card );
-        } */
-       
-        const itemCards = await json?.data?.cards[4]?.groupedCard?.cardGroupMap?.REGULAR?.cards[2]?.card?.card?.itemCards;
-        const menuItems = await itemCards?.map((list) => list?.card?.info)
-        setMenuList(menuItems);
-        console.log(menuItems);
+       // console.log(json.data.cards[4].groupedCard.cardGroupMap.REGULAR.cards);
+
+        const cat = json.data.cards[4].groupedCard.cardGroupMap.REGULAR.cards.filter((c) => 
+            c?.card?.card?.["@type"] === "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
+        );
+        setCategory(cat);
+
+        const nestedCat = json.data.cards[4].groupedCard.cardGroupMap.REGULAR.cards.filter((c) => 
+            c?.card?.card?.["@type"] === "type.googleapis.com/swiggy.presentation.food.v2.NestedItemCategory"
+        );
+        setNestedCategory(nestedCat);
+
+        // console.log(category);
+        // console.log(nestedCategory);
+        //console.log(json.data);
+        //console.log(menuItems);
         //console.log(json.data);
 
     }
 
-    return [restaurant,menuList];
+    return [restaurant,category,nestedCategory];
 }
 
 export default useRestaurant;
