@@ -1,5 +1,8 @@
 
+import { useDispatch } from "react-redux";
 import { IMG_CDN_URL } from "../config";
+import { addItem } from "../../utils/cartSlice";
+import "../../index.css";
 
 const MenuList = ({items}) =>   {
     
@@ -11,6 +14,12 @@ const MenuList = ({items}) =>   {
         }
         return item;
     });
+    const dispatch = useDispatch();
+
+    const handleAddItems = (item) => {
+        //Dispatch an action
+        dispatch(addItem(item));
+    }
     
     return ( 
         <div>
@@ -26,7 +35,10 @@ const MenuList = ({items}) =>   {
                     </div>
                     <div className="w-3/12 ml-8">
                         <div className="absolute">
-                            <button className="mx-16 text-white  rounded-lg p-2 bg-black shadow-lg m-auto ">Add+</button>
+                            <button className="mx-16 text-white  rounded-lg p-2 bg-black shadow-lg m-auto "
+                            onClick={() => handleAddItems(item)}>
+                                 Add + 
+                            </button>
                         </div>
                         <img 
                             className="h-32 w-full object-cover"

@@ -1,10 +1,11 @@
 import RestaurantCard from "./RestaurantCard";
 import { IMG_CDN_URL,restaurants } from "../config.js";
-import React,{ useEffect, useState } from "react";
+import React,{ useContext, useEffect, useState } from "react";
 import Shimmer from "./ShimmerCard.js";
 import { Link } from "react-router-dom";
 import { filterData } from "../../utils/helper.js";
 import useOnline from "../../utils/useOnline.js";
+import UserContext from "../../utils/userContext.js"; 
 
 //In react we cannot make simply search input box , hence we use hooks and usestate and state local variables.
 
@@ -23,6 +24,8 @@ import useOnline from "../../utils/useOnline.js";
     const [allrestaurantList,setAllRestaurantList] = useState([]);
     const [filteredrestaurantList,setFilteredRestaurantList] = useState([]);
     const [loading, setLoading] = useState(true);
+    
+
 
     // empty dependency array => once after render
     // dep array[searchInput] => once after initial render + every time after render (searchInput changes)..
@@ -54,6 +57,9 @@ import useOnline from "../../utils/useOnline.js";
     if(!isOnline){
       return <h1>👀Sorry you are offline!!</h1>
     }
+
+     const{setUserName,loggedInUser} = useContext(UserContext);
+     
       return (
         <>
         <div className="p-5 bg-pink-100 my-5">
@@ -77,6 +83,12 @@ import useOnline from "../../utils/useOnline.js";
               setLoading(false);
             }}
             >search</button>
+
+           <label> UserName :</label>
+           <input className="border border-black p-2"
+           value={loggedInUser}  
+           onChange={(e) => setUserName(e.target.value)}>
+           </input>
         </div>
         <div className="flex flex-wrap justify-between">
           {

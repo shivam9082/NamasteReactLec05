@@ -1,4 +1,4 @@
-import React,{ lazy , Suspense} from "react";
+import React,{ lazy , Suspense, useEffect,useState} from "react";
 import ReactDOM from "react-dom/client";
 import Header,{Title} from "./components/Header.js"; //both default as well as named import..
 import Body from "./components/Body.js";
@@ -9,6 +9,10 @@ import Error from "./components/Error.js";
 import ContactUs from "./components/ContactUs.js";
 import RestaurantMenu from "./components/RestaurantMenu.js";
 import Shimmer from "./components/ShimmerCard.js";
+import UserContext from "../utils/userContext.js";
+import { Provider } from "react-redux";
+import appStore from "../utils/appStore.js";
+import Cart from "./components/Cart.js";
 //import Instamart from "./components/Instamart.js"; -> this is normal importing of instamart... further we will be lazy importing...
 
 /* 
@@ -29,13 +33,31 @@ import Shimmer from "./components/ShimmerCard.js";
 
 
 const AppLayOut = () => {
+
+{/* some authentication code is written*/}
+
+ const [userName,setUserName] = useState();
+
+ //api call giving me user info
+
+ useEffect(()=>{
+  const data = {
+    name: "Shivam Pandey"
+  };
+  setUserName(data.name);
+ },[]);
+ 
     return (
-      <>
-        <Header />
-        {/* {Outlet} -> I know what outlet is.. earlier i was dying for it.*/}
-        <Outlet/>
-        <Footer />
-      </>
+     <Provider store={appStore}>
+         <UserContext.Provider  value={{ loggedInUser : userName , setUserName }}>
+            <>
+              <Header />
+                {/* {Outlet} -> I know what outlet is.. earlier i was dying for it.*/}
+              <Outlet/>
+              <Footer />
+            </>
+          </UserContext.Provider>
+     </Provider>
     );
 }
 
@@ -70,6 +92,10 @@ const appRouter = createBrowserRouter([
         element: <Suspense fallback={<Shimmer/>}> 
                    <Instamart />
                 </Suspense>,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       },
     ]
   },

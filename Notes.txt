@@ -37,3 +37,32 @@
 
 - Read about Lifting the State up from react doc..
 
+
+-- Props Drilling
+  - React is a one way data stream.
+  What is Props Drilling?
+  -> It is basically when we keep on passing data from parent to parent from the source to destination component is known as props Drilling.
+  - Read Props Drilling from React Documentation.
+
+-- To avoid Props Drilling react provides us with React Context.
+-- Only those data which are used at multiple places..should only be put in react context.
+-- In class-based component we do not use hooks.
+
+
+-------- Let's build our Store ----
+  - Redux works with data layer in react.
+  - Redux is not mandatory , use it only when required.
+  - Redux and React are separate Libraries.
+  - Redux offers easy debugging. 
+  - React- Redux and Redux-Tool-Kit
+  - Use Redux Tool Kit.
+  -- steps for redux toolkit
+    - install @reduxjs/toolkit and react-redux
+    - build our Store
+    - connect our store to our app
+    - dispatch(action)
+    - selector
+
+  - While selecting to store be specific, otherwise your app won't be perform optimistically.
+  - Only subscribe to the specific portion of the store what is needed.
+  - Immer Library.

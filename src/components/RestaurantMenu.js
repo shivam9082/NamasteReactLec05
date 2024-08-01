@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import { IMG_CDN_URL } from "../config";
 import ShimmerCard from "./ShimmerCard";
 import MenuItemCard from "./MenuItemCard.js";
-import "./RestaurantMenu.css";
 import useRestaurant from "../../utils/useRestaurant.js";
 import { useState } from "react";
 
@@ -27,7 +26,7 @@ const RestaurantMenu = () => {
            key={c?.card?.card?.title} 
            data={c?.card?.card} 
            showItems={index===showIndex?true:false}  
-           setShowIndex = { () => setShowIndex(index) }
+           setShowIndex = { () => setShowIndex(index === showIndex ? null : index) }
            />
            )}
           
