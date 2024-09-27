@@ -62,7 +62,7 @@ import UserContext from "../../utils/userContext.js";
      
       return (
         <>
-        <div className="p-5 bg-pink-100 my-5">
+        <div className="p-5 bg-pink-100 my-5 w-screen">
             <input 
             type="text" 
             placeholder="search box" 
