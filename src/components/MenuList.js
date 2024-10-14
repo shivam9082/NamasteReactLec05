@@ -28,10 +28,10 @@ const MenuList = ({items}) =>   {
                      
                     <div className="py-12 w-9/12">
                         <div className="font-semibold">
-                            <span> {item.card.info.name} - </span>
-                            <span>₹{item.card.info.price /100?item.card.info.price/100:100 }</span>
+                            <span> {item.card?.info?.name} - </span>
+                            <span>₹{item.card?.info?.price /100?item.card.info.price/100:100 }</span>
                         </div>
-                            <p>{item.card.info.description}</p>  
+                            <p>{item.card?.info?.description}</p>  
                     </div>
                     <div className="w-3/12 ml-8">
                         <div className="absolute">

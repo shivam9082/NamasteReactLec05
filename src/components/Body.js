@@ -13,10 +13,7 @@ import UserContext from "../../utils/userContext.js";
    What is hook? -> Functions.
    What is useState?
 */
-  //a separate function to filter the data on the basis of search input..
-
   
-
   const Body = () => {
     
     // here searchInput is local state variable...
@@ -34,6 +31,7 @@ import UserContext from "../../utils/userContext.js";
       // This is the right place for an API call..
       getRestaurants();
     },[]); // => the square bracket is known as dependency array..
+    
 
     //very very important... good practice for an api call......
 
@@ -41,6 +39,7 @@ import UserContext from "../../utils/userContext.js";
       // inside fetch("") we will provide link of swiggy's api..
       const data = await fetch("https://www.swiggy.com/dapi/restaurants/list/v5?lat=19.07480&lng=72.88560&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
       const json = await data.json();
+      
       // setTimeout(() => {
       //   console.log('This message is displayed after 3 seconds');
       // }, 3000);
@@ -50,7 +49,7 @@ import UserContext from "../../utils/userContext.js";
       setFilteredRestaurantList(json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
       //console.log(filteredrestaurantList);
       setLoading(false);
-    }
+    } 
       
 
     const isOnline = useOnline();    
@@ -73,7 +72,7 @@ import UserContext from "../../utils/userContext.js";
             }}>
   
             </input>
-  
+
             <button className="p-2 m-2 bg-purple-900 hover:bg-purple-400 text-white rounded-md" 
             onClick={() => {
               //filter the data..
@@ -93,7 +92,7 @@ import UserContext from "../../utils/userContext.js";
         <div className="flex flex-wrap justify-between">
           {
           //conditional rendering..
-    // if(restaurantList is Empty) display 
+    // if(restaurantList is Empty) display shimmer
     // else display actual ui..
 
           loading ? <Shimmer/> : (

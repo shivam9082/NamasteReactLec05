@@ -19,7 +19,7 @@
   "bugs": {
     "url": "https://github.com/shivam9082/NamasteReactLec05/issues"
   },
-  "homepage": "https://github.com/shivam9082/NamasteReactLec05#readme",
+  
   "devDependencies": {
     "@babel/core": "^7.24.8",
     "babel-plugin-transform-remove-console": "^6.9.4",

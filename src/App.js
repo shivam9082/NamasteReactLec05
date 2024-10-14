@@ -42,7 +42,7 @@ const AppLayOut = () => {
 
  useEffect(()=>{
   const data = {
-    name: "Shivam Pandey"
+    name: "Piyush Yadav"
   };
   setUserName(data.name);
  },[]);
@@ -50,7 +50,7 @@ const AppLayOut = () => {
     return (
      <Provider store={appStore}>
          <UserContext.Provider  value={{ loggedInUser : userName , setUserName }}>
-            <>
+           <> 
               <Header />
                 {/* {Outlet} -> I know what outlet is.. earlier i was dying for it.*/}
               <Outlet/>
@@ -65,7 +65,7 @@ const AppLayOut = () => {
 const appRouter = createBrowserRouter([
   {
     path: "/",
-    element: <AppLayOut />,
+    element: <AppLayOut/>,
     errorElement: <Error />,
     children:[
       {

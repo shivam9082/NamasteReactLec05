@@ -16,8 +16,9 @@ const MenuItemCard = ({data,showItems,setShowIndex}) => {
                 <div className='flex justify-between cursor-pointer' onClick={handleClick}>
                 <span className='text-lg font-bold'>{data.title+"  "}({ data.itemCards.length})</span>
                 <span>🔽</span>
+                
+            </div>
                 {/* accordion body */}
-                </div>
                    { showItems && <MenuList items={data.itemCards}/>}
                 </div>
         </div>
